@@ -180,4 +180,4 @@ docs/
 logs.txt
 logs/
 
-dumps/
+.python-version
