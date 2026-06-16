@@ -9,3 +9,8 @@ class NodeRepository(BaseRepository):
         stmt = select(Node).where(Node.is_active.is_(True)).order_by(Node.name)
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
+
+    async def list_all_nodes(self) -> list[Node]:
+        stmt = select(Node).order_by(Node.name)
+        result = await self.session.execute(stmt)
+        return list(result.scalars().all())
