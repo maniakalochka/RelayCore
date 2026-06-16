@@ -5,12 +5,7 @@ from app.nodes.models import Node
 
 
 class NodeRepository(BaseRepository):
-    async def list_active(self) -> list[Node]:
+    async def list_available(self) -> list[Node]:
         stmt = select(Node).where(Node.is_active.is_(True)).order_by(Node.name)
-        result = await self.session.execute(stmt)
-        return list(result.scalars().all())
-
-    async def list_all_nodes(self) -> list[Node]:
-        stmt = select(Node).order_by(Node.name)
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
