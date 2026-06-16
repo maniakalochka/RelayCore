@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.strategies import CustomJWTStrategy
 from app.core.config import settings
-from app.db.deps import get_async_session
+from app.db.dependencies import get_async_session
 from app.models.user import User
 
 

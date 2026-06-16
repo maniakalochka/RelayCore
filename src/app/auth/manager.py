@@ -8,7 +8,7 @@ from fastapi_users import BaseUserManager, FastAPIUsers
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 
 from app.auth.backends import auth_backend
-from app.auth.deps import get_user_db
+from app.auth.dependencies import get_user_db
 from app.core.config import settings
 from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate
