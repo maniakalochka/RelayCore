@@ -11,3 +11,12 @@ class NodeRead(BaseModel):
     is_active: bool
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class NodeCreate(BaseModel):
+    name: str
+    host: str
+    port: int
+    country_code: str
+
+    model_config = ConfigDict(from_attributes=True)

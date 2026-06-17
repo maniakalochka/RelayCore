@@ -40,3 +40,10 @@ class NodeRepository(BaseRepository):
             node.health_check_error = health_check_error
             node.last_checked_at = last_checked_at
             await self.session.commit()
+
+    async def create(self, data) -> Node:  # type: ignore[no-untyped-def]
+        node = Node(**data.model_dump())
+        self.session.add(node)
+        await self.session.commit()
+        await self.session.refresh(node)
+        return node

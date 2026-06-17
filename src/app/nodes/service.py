@@ -1,17 +1,23 @@
 import datetime
 import uuid
 
+from app.infrastructure.rabbitmq.publisher import NodePublisher
 from app.nodes.healthcheck import NodeHealthCheckResult, NodeHealthCheckService
 from app.nodes.models import Node
 from app.nodes.repository import NodeRepository
+from app.nodes.schemas import NodeCreate
 
 
 class NodeService:
     def __init__(
-        self, repository: NodeRepository, health_check_service: NodeHealthCheckService
+        self,
+        repository: NodeRepository,
+        health_check_service: NodeHealthCheckService,
+        publisher: NodePublisher,
     ) -> None:
         self.repository = repository
         self.health_check_service = health_check_service
+        self.publisher = publisher
 
     async def list_available_nodes(self) -> list[Node]:
         return await self.repository.list_available()
@@ -29,3 +35,8 @@ class NodeService:
         )
 
         return result
+
+    async def create_node(self, data: NodeCreate) -> Node:
+        node = await self.repository.create(data)
+        await self.publisher.publish_health_check(node.id)
+        return node
