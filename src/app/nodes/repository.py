@@ -4,12 +4,12 @@ import uuid
 from sqlalchemy import select
 
 from app.db.repository import BaseRepository
-from app.nodes.models import Node
+from app.nodes.models import Node, NodeCheck
 
 
 class NodeRepository(BaseRepository):
-    async def list_available(self) -> list[Node]:
-        stmt = select(Node).where(Node.is_active.is_(True)).order_by(Node.name)
+    async def list_available(self) -> list[NodeCheck]:
+        stmt = select(NodeCheck).where(NodeCheck.is_active.is_(True)).order_by(Node.name)
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
 
@@ -23,23 +23,24 @@ class NodeRepository(BaseRepository):
 
         return node
 
-    async def update_health_status(
+    async def create_health_check(
         self,
         node_id: uuid.UUID,
         is_active: bool,
         latency_ms: int | None,
-        health_check_error: str | None,
-        last_checked_at: datetime.datetime | None,
+        error: str | None,
+        checked_at: datetime.datetime,
     ) -> None:
-        stmt = select(Node).where(Node.id == node_id)
-        result = await self.session.execute(stmt)
-        node = result.scalars().first()
-        if node:
-            node.is_active = is_active
-            node.latency_ms = latency_ms
-            node.health_check_error = health_check_error
-            node.last_checked_at = last_checked_at
-            await self.session.commit()
+        check = NodeCheck(
+            node_id=node_id,
+            latency_ms=latency_ms,
+            error=error,
+            is_active=is_active,
+            checked_at=checked_at,
+        )
+
+        self.session.add(check)
+        await self.session.commit()
 
     async def create(self, data) -> Node:  # type: ignore[no-untyped-def]
         node = Node(**data.model_dump())
