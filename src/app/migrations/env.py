@@ -58,7 +58,7 @@ def do_run_migrations(connection: Any) -> None:
 async def run_migrations_online() -> None:
     url = config.get_main_option("sqlalchemy.url") or DB_URL
     if url and url.startswith("postgresql+asyncpg"):
-        url = url.replace("postgresql+asyncpg", "postgresql+psycopg2")
+        url = url.replace("postgresql+asyncpg", "postgresql+psycopg")
     from sqlalchemy import create_engine
 
     connectable = create_engine(url, poolclass=pool.NullPool)  # type: ignore[arg-type]
