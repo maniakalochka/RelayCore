@@ -82,7 +82,7 @@ services:
     container_name: relaycore-worker
     env_file:
       - .env.docker
-    command: uv run python -m app.workers.node_healthcheck_worker
+    command: uv run python -m app.worker.main
     volumes:
       - ./src:/app/src
       - ./pyproject.toml:/app/pyproject.toml
