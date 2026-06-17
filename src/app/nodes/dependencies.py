@@ -4,7 +4,7 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.dependencies import get_async_session
-from app.nodes.healtcheck import NodeHealthCheckService
+from app.nodes.healthcheck import NodeHealthCheckService
 from app.nodes.repository import NodeRepository
 from app.nodes.service import NodeService
 

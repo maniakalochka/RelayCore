@@ -1,7 +1,7 @@
 import datetime
 import uuid
 
-from app.nodes.healtcheck import NodeHealthCheckResult, NodeHealthCheckService
+from app.nodes.healthcheck import NodeHealthCheckResult, NodeHealthCheckService
 from app.nodes.models import Node
 from app.nodes.repository import NodeRepository
 
