@@ -1,5 +1,5 @@
 import aio_pika
-from aio_pika.abc import AbstractRobustConnection
+from aio_pika.abc import AbstractChannel, AbstractRobustConnection
 
 
 class RabbitMQ:
@@ -24,7 +24,7 @@ class RabbitMQ:
             await self.connection.close()
 
     @property
-    def channel(self) -> aio_pika.abc.AbstractChannel:
-        if not self.channel:
+    def channel(self) -> AbstractChannel:
+        if self._channel is None:
             raise RuntimeError("RabbitMQ channel is not initialized")
-        return self.channel
+        return self._channel
