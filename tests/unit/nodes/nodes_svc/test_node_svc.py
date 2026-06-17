@@ -6,10 +6,13 @@ from app.nodes.service import NodeService
 @pytest.mark.asyncio
 async def test_list_available_nodes_returns_active_nodes(mocker):
     mock_repository = mocker.Mock()
+    mock_health_check_service = mocker.Mock()
     nodes = [mocker.Mock(), mocker.Mock()]
     mock_repository.list_available = mocker.AsyncMock(return_value=nodes)
 
-    service = NodeService(repository=mock_repository)
+    service = NodeService(
+        repository=mock_repository, health_check_service=mock_health_check_service
+    )
 
     result = await service.list_available_nodes()
 
