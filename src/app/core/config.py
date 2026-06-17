@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_PORT: int
 
+    # Broker settings
+    RABBITMQ_URL: str
+    NODE_HEALTH_CHECK_QUEUE: str
+
     # Auth settings
     JWT_SECRET: str
     ACCESS_TOKEN_LIFETIME_S: int
