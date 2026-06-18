@@ -1,3 +1,4 @@
+import typing
 import uuid
 
 from sqlalchemy import String
@@ -5,7 +6,9 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
-from app.nodes.models import NodeCheck
+
+if typing.TYPE_CHECKING:
+    from app.nodes.models.node_check import NodeCheck
 
 
 class Node(Base):

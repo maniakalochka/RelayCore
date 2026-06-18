@@ -1,11 +1,14 @@
 import datetime
+import typing
 import uuid
 
 from sqlalchemy import BigInteger
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
-from app.nodes.models import Node
+
+if typing.TYPE_CHECKING:
+    from app.nodes.models.node import Node
 
 
 class NodeCheck(Base):
