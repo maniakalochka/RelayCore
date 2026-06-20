@@ -7,9 +7,9 @@ from typing import Any
 from alembic import context
 from sqlalchemy import pool
 
+from app.auth import User  # noqa: F401
 from app.core.config import settings
 from app.db.base import Base
-from app.models.user import User  # noqa: F401
 from app.nodes.models import Node, NodeCheck  # noqa: F401
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))

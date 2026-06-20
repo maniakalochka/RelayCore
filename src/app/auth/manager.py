@@ -9,14 +9,14 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 
 from app.auth.backends import auth_backend
 from app.auth.dependencies import get_user_db
+from app.auth.models.user import User
+from app.auth.schemas.user import UserCreate, UserUpdate
 from app.core.config import settings
-from app.models.user import User
-from app.schemas.user import UserCreate, UserUpdate
 
 log = logging.getLogger(__name__)
 
 
-class UserManager(BaseUserManager[User, uuid.UUID]):  # type: ignore
+class UserManager(BaseUserManager[User, uuid.UUID]):  # type: ignore[type-var]
     reset_password_token_secret = settings.RESET_PASSWORD_TOKEN_SECRET
     verification_token_secret = settings.VERIFICATION_TOKEN_SECRET
 

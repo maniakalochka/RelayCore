@@ -5,10 +5,10 @@ from fastapi import Depends
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.auth.models.user import User
 from app.auth.strategies import CustomJWTStrategy
 from app.core.config import settings
 from app.db.dependencies import get_async_session
-from app.models.user import User
 
 
 async def get_user_db(

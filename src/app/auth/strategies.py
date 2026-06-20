@@ -3,8 +3,8 @@ from typing import Any
 from fastapi_users.authentication import JWTStrategy
 from fastapi_users.jwt import generate_jwt
 
+from app.auth.models.user import User
 from app.core.config import settings
-from app.models.user import User
 
 
 class CustomJWTStrategy(JWTStrategy):  # type: ignore[type-arg]

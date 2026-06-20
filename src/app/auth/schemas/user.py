@@ -3,7 +3,7 @@ import uuid
 from fastapi_users import schemas as fu_schemas
 from pydantic import ConfigDict
 
-from app.schemas.utils import to_camel
+from app.auth.schemas.utils import to_camel
 
 
 class UserRead(fu_schemas.BaseUser[uuid.UUID]):
