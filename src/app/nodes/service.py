@@ -1,6 +1,8 @@
 import datetime
 import uuid
 
+from app.auth import User
+from app.domain.policies import NodeAccessPolicy
 from app.infrastructure.rabbitmq.publisher import NodePublisher
 from app.nodes.healthcheck import NodeHealthCheckResult, NodeHealthCheckService
 from app.nodes.models import Node, NodeCheck
@@ -39,4 +41,12 @@ class NodeService:
     async def create_node(self, data: NodeCreate) -> Node:
         node = await self.repository.create(data)
         await self.publisher.publish_health_check(node.id)
+        return node
+
+    async def get_node_by_id(self, user: User, node_id: uuid.UUID) -> Node:
+        node = await self.repository.get_by_id(node_id)
+
+        if not NodeAccessPolicy.can_access_node(user.role, node):
+            raise PermissionError("User does not have permission to access this node.")
+
         return node
