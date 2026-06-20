@@ -2,7 +2,7 @@ import datetime
 import typing
 import uuid
 
-from sqlalchemy import BigInteger
+from sqlalchemy import BigInteger, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -15,7 +15,7 @@ class NodeCheck(Base):
     __tablename__ = "node_checks"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
-    node_id: Mapped[uuid.UUID] = mapped_column(nullable=False)
+    node_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("nodes.id"), nullable=False)
     latency_ms: Mapped[int | None] = mapped_column(nullable=True)
     error: Mapped[str | None] = mapped_column(nullable=True)
     is_active: Mapped[bool] = mapped_column(nullable=False, default=True)

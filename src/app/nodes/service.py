@@ -2,6 +2,7 @@ import datetime
 import uuid
 
 from app.auth import User
+from app.auth.enums import UserRole
 from app.domain.policies import NodeAccessPolicy
 from app.infrastructure.rabbitmq.publisher import NodePublisher
 from app.nodes.healthcheck import NodeHealthCheckResult, NodeHealthCheckService
@@ -21,7 +22,9 @@ class NodeService:
         self.health_check_service = health_check_service
         self.publisher = publisher
 
-    async def list_available_nodes(self) -> list[NodeCheck]:
+    async def list_available_nodes(self, user: User) -> list[NodeCheck]:
+        if user.role != UserRole.ADMIN:
+            raise PermissionError("Only admin users can list available nodes.")
         return await self.repository.list_available()
 
     async def check_node(self, node_id: uuid.UUID) -> NodeHealthCheckResult:
@@ -38,7 +41,9 @@ class NodeService:
 
         return result
 
-    async def create_node(self, data: NodeCreate) -> Node:
+    async def create_node(self, data: NodeCreate, user: User) -> Node:
+        if user.role != UserRole.ADMIN:
+            raise PermissionError("Only admin users can create nodes.")
         node = await self.repository.create(data)
         await self.publisher.publish_health_check(node.id)
         return node
@@ -48,5 +53,4 @@ class NodeService:
 
         if not NodeAccessPolicy.can_access_node(user.role, node):
             raise PermissionError("User does not have permission to access this node.")
-
         return node

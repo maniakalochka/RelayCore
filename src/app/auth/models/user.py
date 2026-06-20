@@ -17,7 +17,6 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     hashed_password: Mapped[str]
     is_active: Mapped[bool]
     is_verified: Mapped[bool]
-    is_admin: Mapped[bool] = mapped_column(default=False)
     role: Mapped[UserRole] = mapped_column(
         SAEnum(UserRole, name="user_role"), nullable=False, default=UserRole.USER
     )
